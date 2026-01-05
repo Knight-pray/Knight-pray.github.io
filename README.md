@@ -1,2 +1,2 @@
 # Knight-pray.github.io
-github page test with codex
+github page test with claude code
