@@ -1,0 +1,85 @@
+baseURL = 'https://Knight-pray.github.io/'
+languageCode = 'ko'
+defaultContentLanguage = 'ko'
+title = 'Jaeyeon Lee - 이재연'
+
+# Hugo module
+[module]
+  [[module.imports]]
+    path = "github.com/nunocoracao/blowfish/v2"
+
+# Markup configuration
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
+# Params configuration
+[params]
+  colorScheme = "blowfish"
+  defaultAppearance = "light"
+  autoSwitchAppearance = true
+
+  # Disable background pattern
+  defaultBackgroundImage = false
+
+  # Enable search
+  enableSearch = true
+
+  # Article settings
+  showDate = true
+  showDateOnlyInArticle = false
+  showDateUpdated = false
+  showAuthor = true
+  showReadingTime = true
+  showTableOfContents = true
+  showTaxonomies = true
+  showAuthorsBadges = false
+  showWordCount = false
+  showSummary = true
+  sharingLinks = ["linkedin", "twitter", "email"]
+
+  # Homepage
+  [params.homepage]
+    layout = "profile"
+    homepageImage = ""
+    showRecent = true
+    showRecentItems = 5
+    showMoreLink = true
+    showMoreLinkDest = "/posts"
+    cardView = true
+    cardViewScreenWidth = false
+    layoutBackgroundBlur = false
+
+  # Author
+  [params.author]
+    name = "Jaeyeon Lee - 이재연"
+    headline = "PhD Student | Battery Research"
+    image = "img/author.jpg"
+    # links = [
+    #   { email = "mailto:your@email.com" },
+    #   { github = "https://github.com/Knight-pray" },
+    #   { google-scholar = "https://scholar.google.com/citations?user=xxx" },
+    # ]
+
+# Menu configuration
+[menus]
+  [[menus.main]]
+    name = "About"
+    pageRef = "about"
+    weight = 10
+  [[menus.main]]
+    name = "Posts"
+    pageRef = "posts"
+    weight = 20
+
+# Outputs
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+# Taxonomies
+[taxonomies]
+  tag = "tags"
+  category = "categories"
+  author = "authors"
+  series = "series"
