@@ -16,9 +16,12 @@ title = 'Jaeyeon Lee - 이재연'
 
 # Params configuration
 [params]
-  colorScheme = "blowfish"
+  colorScheme = "blue"
   defaultAppearance = "light"
   autoSwitchAppearance = true
+
+  # Custom CSS
+  customCSS = ["css/custom.css"]
 
   # Disable background pattern
   defaultBackgroundImage = false
@@ -53,14 +56,15 @@ title = 'Jaeyeon Lee - 이재연'
 
   # Author
   [params.author]
-    name = "Jaeyeon Lee - 이재연"
-    headline = "PhD Student | Battery Research"
+    name = "이재연"
+    headline = "PhD Student | Battery Research | Dongguk University"
+    bio = "아연 이온 배터리 및 고체 전해질 연구"
     image = "img/author.jpg"
-    # links = [
-    #   { email = "mailto:your@email.com" },
-    #   { github = "https://github.com/Knight-pray" },
-    #   { google-scholar = "https://scholar.google.com/citations?user=xxx" },
-    # ]
+    links = [
+      { github = "https://github.com/Knight-pray" },
+      # { email = "mailto:your@email.com" },
+      # { google-scholar = "https://scholar.google.com/citations?user=xxx" },
+    ]
 
 # Menu configuration
 [menus]
