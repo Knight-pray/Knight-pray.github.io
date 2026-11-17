@@ -1,4 +1,8 @@
 {{ define "main" }}
+{{- /* /en/<path> or /ko/<path> (language-prefixed URLs) -> /<path>?lang=en|ko */ -}}
+<script>
+(function(){var b={{ "/" | relURL }},m=location.pathname.slice(b.length-1).match(/^\/(en|ko)(\/.*)?$/);if(m)location.replace(b+(m[2]||'/').slice(1)+'?lang='+m[1]+location.hash);})();
+</script>
 <article class="post-single">
   <header class="post-single__header">
     <div class="label-head__kicker">// 404</div>

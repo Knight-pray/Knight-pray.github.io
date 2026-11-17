@@ -2,6 +2,8 @@
 
 Personal research blog built with Hugo and deployed to GitHub Pages by `.github/workflows/hugo.yml` on every push to `main`. The theme (Minimal Scholar v4) is a port of my former Blogger theme and lives in this repo (`layouts/`, `assets/css/main.css`, `assets/js/main.js`); there is no external theme module.
 
+Repository Settings → Pages → Build and deployment → Source must be **GitHub Actions**. With "Deploy from a branch", GitHub also runs its own Jekyll build of the raw repository on every push and, finishing later, replaces the Hugo site (only the README shows; `/about/` and every other page 404).
+
 ## Writing a post
 
 ```bash
@@ -16,6 +18,7 @@ Bilingual content follows the Blogger theme's convention: anything marked Korean
 - Single paragraph, heading, list or table: `{.ko}` / `{.en}` on the next line (headings: `## 제목 {.ko}`)
 - Inline: `{{< ko inline >}}…{{< /ko >}}`
 - English title: `title_en` in front matter (the old `한글 || English` title also works)
+- `/en/` and `/ko/` redirect to the home page in that mode (`?lang=en|ko`, which also works on any page); language-prefixed paths such as `/en/about/` are redirected by the 404 page
 
 Math (`$…$`, `$$…$$`) is rendered by KaTeX and fenced code by highlight.js, both loaded only on posts that need them. `content/posts/theme-guide/` is a draft reference post showing all of this; it is never published.
 
