@@ -1,7 +1,7 @@
 baseURL = 'https://Knight-pray.github.io/'
 languageCode = 'ko'
 defaultContentLanguage = 'ko'
-title = 'Jaeyeon Lee - 이재연'
+title = 'Knight-pray'
 
 # Korean-aware .Summary and word counts
 hasCJKLanguage = true
@@ -36,7 +36,6 @@ capitalizeListTitles = false
 
 [params]
   description = '아연 이온 배터리 및 고체 전해질 연구'
-  author = '이재연'
   pageSize = 10
   # Search-console verification codes (leave empty to omit the tag)
   naverVerification = ''
