@@ -1,0 +1,10 @@
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="custom-footer">
+      <p>© {{ now.Year }} {{ site.Title }} · Built with Hugo</p>
+      {{- with site.Home.OutputFormats.Get "rss" }}
+      <p><a href="{{ .RelPermalink }}">RSS</a></p>
+      {{- end }}
+    </div>
+  </div>
+</footer>

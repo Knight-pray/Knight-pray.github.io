@@ -1,0 +1,17 @@
+{{- /* Category names of a post -> dict {specific, group}: the most specific label (for related posts)
+       and its menu group. Group order in data/taxonomy.yaml = priority. "" when there are no categories. */ -}}
+{{- $names := . -}}
+{{- $lnames := slice -}}
+{{- range $names -}}{{- $lnames = $lnames | append (lower .) -}}{{- end -}}
+{{- $res := "" -}}
+{{- range site.Data.taxonomy.groups -}}
+  {{- $g := . -}}
+  {{- if not $res -}}
+    {{- range $g.children -}}
+      {{- if and (not $res) (in $lnames (lower .)) -}}{{- $res = dict "specific" . "group" $g.label -}}{{- end -}}
+    {{- end -}}
+    {{- if and (not $res) (in $lnames (lower $g.label)) -}}{{- $res = dict "specific" $g.label "group" $g.label -}}{{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- if and (not $res) $names -}}{{- $res = dict "specific" (index $names 0) "group" (index $names 0) -}}{{- end -}}
+{{- return $res -}}

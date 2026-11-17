@@ -1,0 +1,3 @@
+{{- /* Label -> Korean name from data/taxonomy.yaml, or "". */ -}}
+{{- $k := site.Data.taxonomy.ko | default dict -}}
+{{- return (index $k . | default "") -}}

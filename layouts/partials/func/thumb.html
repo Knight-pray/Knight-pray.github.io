@@ -1,0 +1,15 @@
+{{- /* dict {page, size} -> thumbnail URL or "". Source: a bundle image named featured* / cover* /
+       thumbnail* (resized + cropped), else front matter thumbnail (URL or path, used as-is). */ -}}
+{{- $p := .page -}}
+{{- $u := "" -}}
+{{- with $p.Resources.GetMatch "{featured,cover,thumbnail}*" -}}
+  {{- if and (eq .MediaType.MainType "image") (not (in .MediaType.SubType "svg")) -}}
+    {{- $img := .Fill (printf "%s Center" $.size) -}}
+    {{- $u = cond $.abs $img.Permalink $img.RelPermalink -}}
+  {{- else -}}
+    {{- $u = cond $.abs .Permalink .RelPermalink -}}
+  {{- end -}}
+{{- else -}}
+  {{- with $p.Params.thumbnail -}}{{- $u = cond $.abs (absURL .) (relURL .) -}}{{- end -}}
+{{- end -}}
+{{- return $u -}}

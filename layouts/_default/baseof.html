@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="{{ site.LanguageCode | default "ko" }}">
+<head>
+{{ partial "head.html" . }}
+</head>
+{{- /* data-page mirrors Blogger's pageType: item = post, static_page = page, anything else = listing */ -}}
+{{- $pageType := "index" -}}
+{{- if and .IsPage (eq .Section "posts") }}{{ $pageType = "item" }}{{ else if or .IsPage (eq .Kind "404") }}{{ $pageType = "static_page" }}{{ end -}}
+{{- if eq .Layout "search" }}{{ $pageType = "search" }}{{ end -}}
+{{- $full := in (slice "item" "static_page") $pageType }}
+<body data-page="{{ $pageType }}">
+  <a class="skip-link" href="#main-content">본문으로 건너뛰기</a>
+
+  {{ partial "header.html" . }}
+
+  <div class="page-wrapper{{ if $full }} page-wrapper--full{{ end }}" id="pageWrapper">
+    <main class="main-content" id="main-content">
+      {{- block "main" . }}{{ end }}
+    </main>
+    {{- if not $full }}
+    {{ partial "sidebar.html" . }}
+    {{- end }}
+  </div>
+
+  {{ partial "footer.html" . }}
+
+  <button aria-label="맨 위로" class="back-to-top" id="backToTop" title="맨 위로" type="button">↑</button>
+
+  {{- $js := resources.Get "js/main.js" | minify | fingerprint }}
+  <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>
+</body>
+</html>

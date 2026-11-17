@@ -1,0 +1,13 @@
+{{- /* Category label -> its group from data/taxonomy.yaml (the group itself or a child), or "". */ -}}
+{{- $l := lower . -}}
+{{- $found := "" -}}
+{{- range site.Data.taxonomy.groups -}}
+  {{- $g := . -}}
+  {{- if not $found -}}
+    {{- if eq (lower $g.label) $l -}}{{- $found = $g -}}{{- end -}}
+    {{- range $g.children -}}
+      {{- if eq (lower .) $l -}}{{- $found = $g -}}{{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return $found -}}

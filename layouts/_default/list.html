@@ -1,0 +1,12 @@
+{{ define "main" }}
+{{- $pages := .RegularPagesRecursive }}
+<header class="label-head">
+  <div class="label-head__kicker">// archive</div>
+  <h1 class="label-head__title">{{ .Title }}</h1>
+  {{- with len $pages }}
+  <div class="label-head__count">{{ . }}개의 글</div>
+  {{- end }}
+</header>
+{{- $pag := .Paginate $pages (site.Params.pagesize | default 10) }}
+{{ partial "post-list.html" (dict "pag" $pag "empty" "아직 글이 없습니다." "info" "") }}
+{{ end }}

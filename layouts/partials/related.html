@@ -1,0 +1,25 @@
+{{- /* Page -> up to 4 posts sharing its most specific category, falling back to its group. */ -}}
+{{- $p := . -}}
+{{- with partial "func/primary.html" (partial "func/category-names.html" $p) -}}
+  {{- $prim := . -}}
+  {{- $list := where (partial "func/term-pages.html" $prim.specific) "Permalink" "ne" $p.Permalink -}}
+  {{- if and (not $list) (ne $prim.group $prim.specific) -}}
+    {{- $list = where (partial "func/term-pages.html" $prim.group) "Permalink" "ne" $p.Permalink -}}
+  {{- end -}}
+  {{- with first 4 $list }}
+<section class="related" id="relatedPosts">
+  <h2 class="section-kicker">// related</h2>
+  <ul class="related__list">
+    {{- range . }}
+    {{- $tp := partial "func/title-parts.html" . }}
+    <li>
+      <a href="{{ .RelPermalink }}">
+        <span class="related__title{{ if $tp.en }} i18n{{ end }}">{{ partial "title.html" $tp }}</span>
+        <time class="related__date" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006.01.02" }}</time>
+      </a>
+    </li>
+    {{- end }}
+  </ul>
+</section>
+  {{- end }}
+{{- end -}}

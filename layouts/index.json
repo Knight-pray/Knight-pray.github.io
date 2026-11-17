@@ -1,0 +1,19 @@
+{{- /* Search index for /search/ (fetched by main.js) */ -}}
+{{- $out := slice -}}
+{{- range where site.RegularPages "Section" "posts" -}}
+  {{- $tp := partial "func/title-parts.html" . -}}
+  {{- $tags := slice -}}
+  {{- range .GetTerms "tags" -}}{{- $tags = $tags | append .Title -}}{{- end -}}
+  {{- $out = $out | append (dict
+      "ko" $tp.ko
+      "en" $tp.en
+      "url" .RelPermalink
+      "date" (.Date.Format "2006.01.02")
+      "iso" (.Date.Format "2006-01-02T15:04:05Z07:00")
+      "cats" (partial "func/category-names.html" .)
+      "tags" $tags
+      "summary" (.Description | default (.Summary | plainify | htmlUnescape | chomp | truncate 200))
+      "text" (.Plain | htmlUnescape)
+  ) -}}
+{{- end -}}
+{{- $out | jsonify -}}

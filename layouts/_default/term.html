@@ -1,0 +1,40 @@
+{{ define "main" }}
+{{- $label := .Title }}
+{{- $isCat := eq .Data.Plural "categories" }}
+{{- $pages := .Pages }}
+{{- $g := "" }}
+{{- if $isCat }}
+  {{- $pages = partial "func/term-pages.html" $label }}
+  {{- $g = partial "func/group-of.html" $label }}
+{{- end }}
+<header class="label-head">
+  <div class="label-head__kicker">// {{ cond $isCat "category" "tag" }}</div>
+  <h1 class="label-head__title">
+    {{- if and $g (ne (lower $g.label) (lower $label)) }}
+    <a href="{{ partial "func/term-url.html" $g.label }}">{{ partial "func/dn.html" $g.label }}</a>
+    <span class="label-head__sep">/</span>
+    {{- end }}
+    <span>{{ if not $isCat }}#{{ end }}{{ partial "func/dn.html" $label }}</span>
+    {{- with partial "func/ko.html" $label }}
+    <span class="label-head__ko">{{ . }}</span>
+    {{- end }}
+  </h1>
+  {{- with len $pages }}
+  <div class="label-head__count">{{ . }}개의 글</div>
+  {{- end }}
+  {{- with $g }}
+  <nav aria-label="{{ partial "func/dn.html" .label }} 세부 분류" class="label-chips">
+    {{- $all := len (partial "func/term-pages.html" .label) }}
+    <a class="label-chip{{ if eq (lower .label) (lower $label) }} is-active{{ end }}" href="{{ partial "func/term-url.html" .label }}">All<span class="label-chip__ko">전체</span>{{ with $all }}<span class="label-chip__n">{{ . }}</span>{{ end }}</a>
+    {{- range .children }}
+    {{- $k := . }}
+    {{- with index site.Taxonomies.categories (lower $k) }}
+    <a class="label-chip{{ if eq (lower $k) (lower $label) }} is-active{{ end }}" href="{{ .Page.RelPermalink }}">{{ partial "func/dn.html" $k }}{{ with partial "func/ko.html" $k }}<span class="label-chip__ko">{{ . }}</span>{{ end }}<span class="label-chip__n">{{ .Count }}</span></a>
+    {{- end }}
+    {{- end }}
+  </nav>
+  {{- end }}
+</header>
+{{- $pag := .Paginate $pages (site.Params.pagesize | default 10) }}
+{{ partial "post-list.html" (dict "pag" $pag "empty" (cond $isCat "아직 이 카테고리에 글이 없습니다." "아직 이 태그에 글이 없습니다.") "info" "") }}
+{{ end }}

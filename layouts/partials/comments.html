@@ -1,0 +1,16 @@
+{{- /* giscus container; main.js injects the client with the current light/dark theme. */ -}}
+{{- $g := site.Params.giscus | default dict -}}
+<section class="comments" id="comments">
+  <h3 class="comments-title">댓글</h3>
+  <div class="giscus"
+    data-repo="{{ $g.repo }}"
+    data-repo-id="{{ $g.repoid }}"
+    data-category="{{ $g.category }}"
+    data-category-id="{{ $g.categoryid }}"
+    data-mapping="pathname"
+    data-strict="1"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="bottom"
+    data-lang="ko"></div>
+</section>

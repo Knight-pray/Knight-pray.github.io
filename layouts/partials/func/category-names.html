@@ -1,0 +1,4 @@
+{{- /* Page -> its category names (term titles), in front matter order. */ -}}
+{{- $names := slice -}}
+{{- range .GetTerms "categories" -}}{{- $names = $names | append .Title -}}{{- end -}}
+{{- return $names -}}

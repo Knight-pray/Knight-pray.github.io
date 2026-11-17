@@ -1,0 +1,18 @@
+{{ define "main" }}
+{{- $isCat := eq .Data.Plural "categories" }}
+<header class="label-head">
+  <div class="label-head__kicker">// {{ .Data.Plural }}</div>
+  <h1 class="label-head__title">{{ cond $isCat "Categories" "Tags" }}<span class="label-head__ko">{{ cond $isCat "카테고리" "태그" }}</span></h1>
+</header>
+{{- if $isCat }}
+{{ partial "category-tree.html" . }}
+{{- else }}
+<nav class="label-chips" aria-label="태그">
+  {{- range .Data.Terms.Alphabetical }}
+  <a class="label-chip" href="{{ .Page.RelPermalink }}">#{{ .Page.Title }}<span class="label-chip__n">{{ .Count }}</span></a>
+  {{- else }}
+  <p class="empty-state">아직 태그가 없습니다.</p>
+  {{- end }}
+</nav>
+{{- end }}
+{{ end }}

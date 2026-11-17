@@ -1,0 +1,29 @@
+{{- /* Page -> label row: GROUP / sub · GROUP / sub  other  #tag (build-time version of renderLabels). */ -}}
+{{- $p := . -}}
+{{- $names := partial "func/category-names.html" $p -}}
+{{- $lnames := slice -}}
+{{- range $names -}}{{- $lnames = $lnames | append (lower .) -}}{{- end -}}
+{{- $used := slice -}}
+{{- $out := slice -}}
+{{- range site.Data.taxonomy.groups -}}
+  {{- $g := . -}}
+  {{- $kids := slice -}}
+  {{- range $g.children -}}{{- if in $lnames (lower .) -}}{{- $kids = $kids | append . -}}{{- end -}}{{- end -}}
+  {{- if or (in $lnames (lower $g.label)) $kids -}}
+    {{- $out = $out | append (dict "l" $g.label "c" "post-label post-label--group") -}}
+    {{- $used = $used | append (lower $g.label) -}}
+    {{- range $kids -}}
+      {{- $out = $out | append (dict "l" . "c" "post-label post-label--sub") -}}
+      {{- $used = $used | append (lower .) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- range $names -}}
+  {{- if not (in $used (lower .)) -}}{{- $out = $out | append (dict "l" . "c" "post-label") -}}{{- end -}}
+{{- end -}}
+{{- range $out -}}
+<a class="{{ .c }}" href="{{ partial "func/term-url.html" .l }}">{{ partial "func/dn.html" .l }}</a>
+{{- end -}}
+{{- range $p.GetTerms "tags" -}}
+<a class="post-label post-label--type" href="{{ .RelPermalink }}">{{ .Title }}</a>
+{{- end -}}

@@ -1,0 +1,15 @@
+{{ define "main" }}
+{{- /* Static page (About, …): title + body, full width, no meta. toc: true in front matter adds a TOC. */ -}}
+{{- $tp := partial "func/title-parts.html" . }}
+<article class="post-single">
+  <header class="post-single__header">
+    <h1 class="post-single__title{{ if $tp.en }} i18n{{ end }}">{{ partial "title.html" $tp }}</h1>
+  </header>
+  {{- if .Params.toc }}
+  {{ partial "toc.html" . }}
+  {{- end }}
+  <div class="post-body i18n" id="post-body">
+    {{ .Content }}
+  </div>
+</article>
+{{ end }}
