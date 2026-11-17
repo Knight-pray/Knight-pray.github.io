@@ -1,0 +1,15 @@
+{{- /* Standalone redirect page (no baseof): /en/ and /ko/ open the home page in that language mode.
+       The lang query is read by the init script in head.html and remembered in localStorage. */ -}}
+{{- $to := printf "%s?lang=%s" ("/" | relURL) .Params.langMode -}}
+<!DOCTYPE html>
+<html lang="{{ .Params.langMode }}">
+<head>
+<meta charset="utf-8">
+<title>{{ site.Title }}</title>
+<meta name="robots" content="noindex">
+<link rel="canonical" href="{{ "/" | absURL }}">
+<meta http-equiv="refresh" content="0; url={{ $to }}">
+<script>location.replace({{ $to }});</script>
+</head>
+<body><a href="{{ $to }}">{{ site.Title }}</a></body>
+</html>
