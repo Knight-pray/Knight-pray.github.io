@@ -1,6 +1,6 @@
 ---
 title: "About"
-description: "About Jaeyeon Lee"
+description: "About"
 showDate: false
 showAuthor: false
 showReadingTime: false
