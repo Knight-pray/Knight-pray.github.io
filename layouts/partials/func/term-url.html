@@ -1,0 +1,9 @@
+{{- /* Category label -> URL of its term page (works for empty group stubs too). */ -}}
+{{- $l := . -}}
+{{- $u := "" -}}
+{{- with index site.Taxonomies.categories (lower $l) -}}{{- $u = .Page.RelPermalink -}}{{- end -}}
+{{- if not $u -}}
+  {{- with site.GetPage (printf "/categories/%s" (urlize $l)) -}}{{- $u = .RelPermalink -}}{{- end -}}
+{{- end -}}
+{{- if not $u -}}{{- $u = printf "categories/%s/" (urlize $l) | relURL -}}{{- end -}}
+{{- return $u -}}

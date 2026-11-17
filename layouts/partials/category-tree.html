@@ -1,0 +1,44 @@
+{{- /* Page -> sidebar category tree: groups with their children, then the remaining categories. */ -}}
+{{- $cur := "" -}}
+{{- if and (eq .Kind "term") (eq .Data.Plural "categories") }}{{ $cur = lower .Title }}{{ end -}}
+{{- $rows := slice -}}
+{{- $done := slice -}}
+{{- range site.Data.taxonomy.groups -}}
+  {{- $g := . -}}
+  {{- $done = $done | append (lower $g.label) -}}
+  {{- $n := len (partial "func/term-pages.html" $g.label) -}}
+  {{- $kids := slice -}}
+  {{- range $g.children -}}
+    {{- $k := . -}}
+    {{- $done = $done | append (lower $k) -}}
+    {{- with index site.Taxonomies.categories (lower $k) -}}
+      {{- $kids = $kids | append (dict "l" $k "n" .Count "cls" "cat-child") -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if gt $n 0 -}}
+    {{- $rows = $rows | append (dict "l" $g.label "n" $n "cls" "cat-group") -}}
+    {{- range $kids }}{{ $rows = $rows | append . }}{{ end -}}
+  {{- end -}}
+{{- end -}}
+{{- $rest := slice -}}
+{{- range $key, $wp := site.Taxonomies.categories -}}
+  {{- if not (in $done $key) -}}{{- $rest = $rest | append (dict "l" $wp.Page.Title "n" $wp.Count "cls" "") -}}{{- end -}}
+{{- end -}}
+{{- range $i, $r := $rest -}}
+  {{- if and (eq $i 0) $rows -}}{{- $r = merge $r (dict "cls" "cat-sep") -}}{{- end -}}
+  {{- $rows = $rows | append $r -}}
+{{- end -}}
+{{- if $rows }}
+<ul class="category-list">
+  {{- range $rows }}
+  <li{{ with .cls }} class="{{ . }}"{{ end }}>
+    <a href="{{ partial "func/term-url.html" .l }}"{{ if eq (lower .l) $cur }} class="is-active"{{ end }}>
+      <span class="cat-name">{{ partial "func/dn.html" .l }}{{ with partial "func/ko.html" .l }}<span class="cat-ko">{{ . }}</span>{{ end }}</span>
+      <span class="cat-count">{{ .n }}</span>
+    </a>
+  </li>
+  {{- end }}
+</ul>
+{{- else }}
+<p class="empty-state">아직 카테고리가 없습니다.</p>
+{{- end }}

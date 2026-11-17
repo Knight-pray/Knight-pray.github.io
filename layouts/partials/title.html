@@ -1,0 +1,6 @@
+{{- /* title-parts dict -> inline markup. The caller adds class "i18n" to the parent when .en is set. */ -}}
+{{- if .en -}}
+<span class="ko">{{ .ko }}</span><span class="en title-en" lang="en">{{ .en }}</span>
+{{- else -}}
+{{ .ko }}
+{{- end -}}

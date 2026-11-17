@@ -1,0 +1,6 @@
+{{- /* {{< ko >}}Markdown{{< /ko >}} -> Korean block. {{< ko inline >}}…{{< /ko >}} -> inline span. */ -}}
+{{- if eq (.Get 0) "inline" -}}
+<span class="ko">{{ .Inner | chomp | .Page.RenderString }}</span>
+{{- else -}}
+<div class="ko">{{ .Inner | .Page.RenderString (dict "display" "block") }}</div>
+{{- end -}}

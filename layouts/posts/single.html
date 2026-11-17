@@ -1,0 +1,72 @@
+{{ define "main" }}
+{{- $tp := partial "func/title-parts.html" . }}
+{{- $g := site.Params.giscus | default dict }}
+{{- $comments := and $g.repoid $g.categoryid (ne .Params.comments false) }}
+<article class="post-single">
+  <header class="post-single__header">
+    {{- if or (.GetTerms "categories") (.GetTerms "tags") }}
+    <div class="post-single__labels">{{ partial "labels.html" . }}</div>
+    {{- end }}
+    <h1 class="post-single__title{{ if $tp.en }} i18n{{ end }}">{{ partial "title.html" $tp }}</h1>
+    <div class="post-single__bar">
+      <div class="post-meta post-single__meta">
+        <time datetime="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">{{ .Date.Format "2006.01.02" }}</time>
+        <span class="js-reading" hidden><span class="post-meta__sep">·</span> <span class="js-reading-text"></span></span>
+        {{- if $comments }}
+        <span class="post-meta__sep">·</span>
+        <a href="#comments">댓글</a>
+        {{- end }}
+      </div>
+      <!-- shown only on bilingual posts; changes this post only -->
+      <div aria-label="이 글의 언어" class="lang-switch" hidden id="postLang" role="group">
+        <button data-lang-set="ko" type="button">한</button>
+        <button data-lang-set="both" type="button">한·영</button>
+        <button data-lang-set="en" type="button">EN</button>
+      </div>
+    </div>
+  </header>
+
+  {{- if ne .Params.toc false }}
+  {{ partial "toc.html" . }}
+  {{- end }}
+
+  <div class="post-body i18n" id="post-body">
+    {{ .Content }}
+  </div>
+
+  <div class="share-row" data-share-title="{{ $tp.full }}">
+    <span class="share-row__label">share</span>
+    <a class="share-btn" data-share="x" href="#" rel="noopener" target="_blank">X</a>
+    <a class="share-btn" data-share="facebook" href="#" rel="noopener" target="_blank">Facebook</a>
+    <button class="share-btn" data-share="copy" type="button">링크 복사</button>
+  </div>
+
+  {{- /* PrevInSection = older post, NextInSection = newer post (default date-descending order) */}}
+  {{- if or .PrevInSection .NextInSection }}
+  <nav aria-label="이전 글과 다음 글" class="post-nav">
+    {{- with .PrevInSection }}
+    {{- $t := partial "func/title-parts.html" . }}
+    <a class="post-nav__item post-nav__item--prev" href="{{ .RelPermalink }}">
+      <span class="post-nav__dir">← 이전 글</span>
+      <span class="post-nav__title{{ if $t.en }} i18n{{ end }}">{{ partial "title.html" $t }}</span>
+    </a>
+    {{- end }}
+    {{- with .NextInSection }}
+    {{- $t := partial "func/title-parts.html" . }}
+    <a class="post-nav__item post-nav__item--next" href="{{ .RelPermalink }}">
+      <span class="post-nav__dir">다음 글 →</span>
+      <span class="post-nav__title{{ if $t.en }} i18n{{ end }}">{{ partial "title.html" $t }}</span>
+    </a>
+    {{- end }}
+  </nav>
+  {{- end }}
+
+  {{ partial "related.html" . }}
+
+  {{- if $comments }}
+  <div class="comments-wrap">
+    {{ partial "comments.html" . }}
+  </div>
+  {{- end }}
+</article>
+{{ end }}

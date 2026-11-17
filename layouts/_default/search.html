@@ -1,0 +1,9 @@
+{{ define "main" }}
+<header class="label-head">
+  <div class="label-head__kicker">// search</div>
+  <h1 class="label-head__title" id="searchTitle">검색</h1>
+  <div class="label-head__count" id="searchCount"></div>
+</header>
+<div id="searchResults" data-index="{{ with site.Home.OutputFormats.Get "json" }}{{ .RelPermalink }}{{ end }}"></div>
+<noscript><p class="empty-state">검색에는 JavaScript가 필요합니다.</p></noscript>
+{{ end }}

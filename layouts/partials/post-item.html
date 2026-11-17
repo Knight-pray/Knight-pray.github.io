@@ -1,0 +1,31 @@
+{{- $tp := partial "func/title-parts.html" . -}}
+{{- $thumb := partial "func/thumb.html" (dict "page" . "size" "480x320" "abs" false) -}}
+{{- $snippet := .Description | default (.Summary | plainify | htmlUnescape | chomp | truncate 200) -}}
+{{- /* bilingual post: ship an inert copy of the body so the script can build one snippet per language */ -}}
+{{- $bi := and (findRE `class="[^"]*\bko\b` .Content 1) (findRE `class="[^"]*\ben\b` .Content 1) -}}
+<article class="post-item{{ if $thumb }} post-item--has-thumb{{ end }}">
+  <div class="post-item__body">
+    <div class="post-meta">
+      {{- if or (.GetTerms "categories") (.GetTerms "tags") }}
+      <span class="post-meta__labels">{{ partial "labels.html" . }}</span>
+      <span class="post-meta__sep">·</span>
+      {{- end }}
+      <time datetime="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">{{ .Date.Format "2006.01.02" }}</time>
+    </div>
+    <h2 class="post-item__title">
+      <a href="{{ .RelPermalink }}"{{ if $tp.en }} class="i18n"{{ end }}>{{ partial "title.html" $tp }}</a>
+    </h2>
+    {{- with $snippet }}
+    <p class="post-item__snippet">{{ . }}</p>
+    {{- end }}
+    <a class="read-more" href="{{ .RelPermalink }}">계속 읽기 <span aria-hidden="true">→</span></a>
+    {{- if $bi }}
+    <template class="i18n-src">{{ .Content }}</template>
+    {{- end }}
+  </div>
+  {{- with $thumb }}
+  <a aria-hidden="true" class="post-item__thumb" href="{{ $.RelPermalink }}" tabindex="-1">
+    <img decoding="async" alt="{{ $tp.full }}" src="{{ . }}" height="320" width="480" loading="lazy">
+  </a>
+  {{- end }}
+</article>

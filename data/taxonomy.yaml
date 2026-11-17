@@ -1,0 +1,38 @@
+# Category tree (the TAXONOMY object of the Blogger theme, now resolved at build time).
+#
+# groups:  menu-level umbrella + its sub-categories, in menu order. A post only needs its most
+#          specific category (categories: ["Battery"]); group pages also list their children's posts.
+#          Adding a group: also create content/categories/<slug>/_index.md so its page exists while empty.
+# display: optional English display name; the category term (and its URL) stays as written.
+# ko:      Korean name shown next to it on category pages and in the sidebar.
+# Tags (tags: [...]) are the cross-cutting "#type" labels and are not part of this tree.
+
+groups:
+  - label: Materials
+    children: [Battery, Electrochemistry, Analysis, Simulation]
+  - label: AI
+    children: [ML, DL, LLM]
+  - label: Tech
+    children: [Mobile, Audio, PC Hardware]
+  - label: 3D Printing
+    children: [Printer, Prints, 3D Modeling]
+  - label: Life
+    children: [Grad School, Personal]
+
+display:
+  Mobile: "Mobile & Laptop"
+  3D Modeling: "Modeling"
+
+ko:
+  Battery: "배터리 소재"
+  Electrochemistry: "전기화학"
+  Analysis: "분석"
+  Simulation: "계산·시뮬레이션"
+  Mobile: "모바일·노트북"
+  Audio: "오디오"
+  PC Hardware: "PC 하드웨어"
+  Printer: "장비"
+  Prints: "출력"
+  3D Modeling: "모델링"
+  Grad School: "대학원"
+  Personal: "일상"

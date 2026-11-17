@@ -1,0 +1,13 @@
+{{- /* Page -> dict {ko, en, full}. English title from front matter title_en, or the Blogger
+       convention "한글 제목 || English title" in title. full = "한글 | English" for <title>/sharing. */ -}}
+{{- $t := .Title -}}
+{{- $en := .Params.title_en | default "" -}}
+{{- $ko := $t -}}
+{{- if and (not $en) (strings.Contains $t " || ") -}}
+  {{- $parts := split $t " || " -}}
+  {{- $ko = trim (index $parts 0) " " -}}
+  {{- $en = trim (delimit (after 1 $parts) " || ") " " -}}
+{{- end -}}
+{{- $full := $ko -}}
+{{- if $en -}}{{- $full = printf "%s | %s" $ko $en -}}{{- end -}}
+{{- return (dict "ko" $ko "en" $en "full" $full) -}}

@@ -1,0 +1,14 @@
+{{- /* Page -> URL of the header nav item to highlight: the group of a category page or of a post's
+       primary category, else the page's own URL. */ -}}
+{{- $p := . -}}
+{{- $a := $p.RelPermalink -}}
+{{- if $p.IsHome -}}
+  {{- $a = "/" | relURL -}}
+{{- else if and (eq $p.Kind "term") (eq $p.Data.Plural "categories") -}}
+  {{- with partial "func/group-of.html" $p.Title -}}{{- $a = partial "func/term-url.html" .label -}}{{- end -}}
+{{- else if and $p.IsPage (eq $p.Section "posts") -}}
+  {{- with partial "func/primary.html" (partial "func/category-names.html" $p) -}}
+    {{- $a = partial "func/term-url.html" .group -}}
+  {{- end -}}
+{{- end -}}
+{{- return $a -}}

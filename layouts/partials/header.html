@@ -1,0 +1,28 @@
+{{- $active := partial "func/active-nav.html" . -}}
+{{- $items := slice (dict "name" "Home" "url" ("/" | relURL)) -}}
+{{- range site.Data.taxonomy.groups -}}
+  {{- $items = $items | append (dict "name" (partial "func/dn.html" .label) "url" (partial "func/term-url.html" .label)) -}}
+{{- end -}}
+{{- range site.Menus.main -}}
+  {{- $items = $items | append (dict "name" .Name "url" .URL) -}}
+{{- end -}}
+<header class="site-header">
+  <div class="site-header__inner">
+    <!-- h1 only on the homepage; posts and category pages get their own h1 -->
+    {{- if .IsHome }}
+    <h1 class="site-title"><a href="{{ "/" | relURL }}">{{ site.Title }}</a></h1>
+    {{- else }}
+    <p class="site-title"><a href="{{ "/" | relURL }}">{{ site.Title }}</a></p>
+    {{- end }}
+
+    <nav aria-label="주 메뉴" class="site-nav">
+      {{- range $items }}
+      <a href="{{ .url }}"{{ if eq .url $active }} class="is-active" aria-current="page"{{ end }}>{{ .name }}</a>
+      {{- end }}
+    </nav>
+
+    <button aria-label="언어 전환" class="lang-toggle" id="langToggle" title="언어 전환: 한 → 한·영 → EN" type="button"><span class="lang-toggle__pill"><span aria-hidden="true" class="lang-toggle__icon"></span><span class="lang-toggle__text"></span></span></button>
+
+    <button aria-label="다크 모드 전환" aria-pressed="false" class="theme-toggle" id="themeToggle" title="다크 모드 전환" type="button"><span class="theme-toggle__track"></span></button>
+  </div>
+</header>

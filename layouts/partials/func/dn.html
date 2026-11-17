@@ -1,0 +1,3 @@
+{{- /* Label -> English display name from data/taxonomy.yaml (falls back to the label). */ -}}
+{{- $d := site.Data.taxonomy.display | default dict -}}
+{{- return (index $d . | default .) -}}

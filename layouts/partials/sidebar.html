@@ -1,0 +1,29 @@
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-widget">
+    <h2 class="sidebar-widget__title">// search</h2>
+    <form action="{{ "search/" | relURL }}" class="sidebar-search" method="get" role="search">
+      <input aria-label="블로그 검색" id="searchInput" name="q" placeholder="검색어 입력…" type="search">
+      <button aria-label="검색" type="submit"><span class="sidebar-search__icon"></span></button>
+    </form>
+  </div>
+
+  <div class="sidebar-widget">
+    <h2 class="sidebar-widget__title">// categories</h2>
+    {{ partial "category-tree.html" . }}
+  </div>
+
+  <div class="sidebar-widget">
+    <h2 class="sidebar-widget__title">// recent</h2>
+    <ul class="recent-posts-list">
+      {{- range first 6 (where site.RegularPages "Section" "posts") }}
+      {{- $tp := partial "func/title-parts.html" . }}
+      <li>
+        <a href="{{ .RelPermalink }}"{{ if $tp.en }} class="i18n"{{ end }}>{{ partial "title.html" $tp }}</a>
+        <span class="rp-date">{{ .Date.Format "2006.01.02" }}</span>
+      </li>
+      {{- else }}
+      <li class="empty-state">아직 글이 없습니다.</li>
+      {{- end }}
+    </ul>
+  </div>
+</aside>

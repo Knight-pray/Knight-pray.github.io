@@ -1,0 +1,10 @@
+{{ define "main" }}
+{{- $posts := where site.RegularPages "Section" "posts" }}
+{{- $pag := .Paginate $posts (site.Params.pagesize | default 10) }}
+{{- $info := "" }}
+{{- if and (eq $pag.PageNumber 1) $posts }}{{ $info = printf "총 %d개의 글" (len $posts) }}{{ end }}
+{{- if eq $pag.PageNumber 1 }}{{ with .Content }}
+<div class="home-intro">{{ . }}</div>
+{{- end }}{{ end }}
+{{ partial "post-list.html" (dict "pag" $pag "empty" "아직 글이 없습니다." "info" $info) }}
+{{ end }}

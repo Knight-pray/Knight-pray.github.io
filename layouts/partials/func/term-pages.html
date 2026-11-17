@@ -1,0 +1,13 @@
+{{- /* Category label -> its posts, newest first. A group label also collects its children's posts,
+       so a post tagged only "Battery" still shows under Materials. */ -}}
+{{- $l := . -}}
+{{- $pages := first 0 site.RegularPages -}}
+{{- with index site.Taxonomies.categories (lower $l) -}}{{- $pages = .Pages -}}{{- end -}}
+{{- with partial "func/group-of.html" $l -}}
+  {{- if eq (lower .label) (lower $l) -}}
+    {{- range .children -}}
+      {{- with index site.Taxonomies.categories (lower .) -}}{{- $pages = $pages | union .Pages -}}{{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return $pages.ByDate.Reverse -}}

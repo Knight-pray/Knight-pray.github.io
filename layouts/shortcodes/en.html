@@ -1,0 +1,6 @@
+{{- /* {{< en >}}Markdown{{< /en >}} -> English block. {{< en inline >}}…{{< /en >}} -> inline span. */ -}}
+{{- if eq (.Get 0) "inline" -}}
+<span class="en" lang="en">{{ .Inner | chomp | .Page.RenderString }}</span>
+{{- else -}}
+<div class="en" lang="en">{{ .Inner | .Page.RenderString (dict "display" "block") }}</div>
+{{- end -}}
